@@ -26,7 +26,7 @@ const getContactosDni = async(req:Request, res:Response) => {
 
         const ciudad = await getCiudad(contacto.iso, contacto.codigoPostal);
 
-        const pais = await getPais(contacto.iso, contacto.codigoPostal);
+        const pais = await getPais(contacto.iso);
 
         const region = await getRegion(contacto.iso);
         
