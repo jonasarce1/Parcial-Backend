@@ -1,6 +1,10 @@
 import express from "npm:express@4.18.2";
 import mongoose from "npm:mongoose@7.6.3";
 
+import getContactos from "./resolvers/getContactos.ts";
+import getContactosDni from "./resolvers/getContactosDni.ts";
+import addContacto from "./resolvers/addContactos.ts";
+
 import { load } from "https://deno.land/std@0.204.0/dotenv/mod.ts";
 const env = await load();
 
@@ -17,6 +21,9 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/api/contactos", getContactos);
+app.get("/api/contactos/:dni", getContactosDni);
+app.post("/api/contactos", addContacto);
 
 
 app.listen(3000, () => console.log("Servidor activo en puerto 3000"));
