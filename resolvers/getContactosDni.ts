@@ -3,6 +3,7 @@ import {Request, Response} from "npm:express@4.18.2";
 import ContactoModel from "../db/contacto.ts";
 
 import getCiudad from "../apis/getCiudad.ts";
+import getCapital from "../apis/getCapital.ts";
 import getPais from "../apis/getPais.ts";
 import getRegion from "../apis/getRegion.ts";
 import getTimezone from "../apis/getTimezone.ts";
@@ -26,11 +27,13 @@ const getContactosDni = async(req:Request, res:Response) => {
 
         const ciudad = await getCiudad(contacto.iso, contacto.codigoPostal);
 
+        const capital = await getCapital(contacto.iso);
+
         const pais = await getPais(contacto.iso);
 
         const region = await getRegion(contacto.iso);
         
-        const datetime = await getTimezone(region, ciudad);
+        const datetime = await getTimezone(region, capital);
 
         const condicionMeteo = await getMeteo(ciudad);
 
