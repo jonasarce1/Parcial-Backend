@@ -11,16 +11,17 @@ const deleteContacto = async(req:Request, res:Response) => {
             return; 
         }
 
-        const yaExiste = await ContactoModel.findOne({dni}).exec();
-        if(!yaExiste){
+        const contactoDelete = await ContactoModel.findOneAndDelete({dni}).exec();
+        if(!contactoDelete){
             res.status(404).send("No existe un contacto con ese id");
             return;
         }
 
-        
-
+        res.status(200).json("Contacto borrado correctamente"); 
     }catch(error){
         res.status(500).send(error.message); //status 500 es error del servidor
         return;
     }
 }
+
+export default deleteContacto;
