@@ -39,6 +39,7 @@ const getContactosDni = async(req:Request, res:Response) => {
             nombre: contacto.nombre,
             apellido1: contacto.apellido1,
             apellido2: contacto.apellido2,
+            codigoPostal: contacto.codigoPostal,
             pais,
             ciudad,
             datetime,
