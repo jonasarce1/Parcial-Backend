@@ -19,14 +19,14 @@ const updateContacto = async(req:Request, res:Response) => {
             return;
         }
 
-        if(iso.length !== 2){
+        if (iso && iso.length !== 2) {
             res.status(400).send("El iso code debe tener 2 caracteres");
-            return; 
+            return;
         }
 
-        if(codigoPostal.length !== 5 && codigoPostal.length !== 6){
+        if (codigoPostal && (codigoPostal.length !== 5 && codigoPostal.length !== 6)) {
             res.status(400).send("El codigo postal debe tener 5 o 6 caracteres");
-            return; 
+            return;
         }
 
 
