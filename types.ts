@@ -5,5 +5,9 @@ export type Contacto = {
     apellido2:string,
     email:string,
     codigoPostal:string,
-    iso:string
+    iso:string,
+    pais?:string,
+    ciudad?:string,
+    datetime?:string,
+    condicionMeteo?:string
 }

@@ -2,6 +2,13 @@
 import {Request, Response} from "npm:express@4.18.2";
 import ContactoModel from "../db/contacto.ts";
 
+import getCapital from "../apis/getCapital.ts";
+import getCiudad from "../apis/getCiudad.ts";
+import getMeteo from "../apis/getMeteo.ts";
+import getPais from "../apis/getPais.ts";
+import getRegion from "../apis/getRegion.ts";
+import getTimezone from "../apis/getTimezone.ts";
+
 const updateContacto = async(req:Request, res:Response) => {
     try{
         const dni = req.params.dni;
@@ -11,6 +18,17 @@ const updateContacto = async(req:Request, res:Response) => {
             res.status(400).send("Falta el dni");
             return;
         }
+
+        if(iso.length !== 2){
+            res.status(400).send("El iso code debe tener 2 caracteres");
+            return; 
+        }
+
+        if(codigoPostal.length !== 5 && codigoPostal.length !== 6){
+            res.status(400).send("El codigo postal debe tener 5 o 6 caracteres");
+            return; 
+        }
+
 
         const contacto = await ContactoModel.findOne({dni}).exec();
 
@@ -35,12 +53,17 @@ const updateContacto = async(req:Request, res:Response) => {
             contacto.email = email;
         }
 
-        if(codigoPostal){
-            contacto.codigoPostal = codigoPostal;
-        }
-
-        if(iso){
-            contacto.iso = iso;
+        if((codigoPostal && codigoPostal !== contacto.codigoPostal) || (iso && iso !== contacto.iso)){
+            contacto.codigoPostal = codigoPostal || contacto.codigoPostal;
+            contacto.iso = iso || contacto.iso;
+            contacto.pais = await getPais(iso || contacto.iso);
+            contacto.ciudad = await getCiudad(iso || contacto.iso, codigoPostal || contacto.codigoPostal);
+            const region = await getRegion(iso || contacto.iso);
+            const capital = await getCapital(iso || contacto.iso);
+            contacto.datetime = await getTimezone(region, capital);
+            if(contacto.ciudad){ 
+                contacto.condicionMeteo = await getMeteo(contacto.ciudad)
+            }
         }
 
         await contacto.save();

@@ -11,7 +11,7 @@ const getContactos = async(_req:Request, res:Response) => {
         }
 
         res.status(200).send(contactos.map(({dni, nombre, apellido1, apellido2}) => ({dni, nombre, apellido1, apellido2})));
-
+        
     }catch(error){
         res.status(500).send(error.message); //status 500 es error del servidor
         return;

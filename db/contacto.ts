@@ -10,7 +10,11 @@ const contactoSchema = new Schema({
     apellido2:{type:String, required:true},
     email:{type:String, required:true},
     codigoPostal:{type:String, required:true},
-    iso:{type:String, required:true}
+    iso:{type:String, required:true},
+    pais:{type:String, required:false},
+    ciudad:{type:String, required:false},
+    datetime:{type:String, required:false},
+    condicionMeteo:{type:String, required:false}
 })
 
 type ContactoModelType = mongoose.Document & Omit<Contacto, "id">
